@@ -26,26 +26,26 @@ const axisEvents = (gltf) => {
 
         // Mover el modelo hacia la izquierda
         if (keyCode === 37) {
-            gltf.scene.position.x -= 0.1;
+            gltf.scene.position.x -= 0.01;
         }
 
         // Mover el modelo hacia arriba
         if (keyCode === 38) {
-            gltf.scene.position.z += 0.1;
+            gltf.scene.position.z += 0.01;
         }
 
         // Mover el modelo hacia la derecha
         if (keyCode === 39) {
-            gltf.scene.position.x += 0.1;
+            gltf.scene.position.x += 0.01;
         }
 
         // Mover el modelo hacia abajo
         if (keyCode === 40) {
-            gltf.scene.position.z -= 0.1;
+            gltf.scene.position.z -= 0.01;
         }
 
         if (keyCode === 80) {
-            gltf.scene.position.y += 0.2
+            gltf.scene.position.y += 0.02
 
         }
     });
