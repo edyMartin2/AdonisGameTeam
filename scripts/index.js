@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+//mport {threeFbxLoader} from './Engine/index.js';
 import ACartonyFemaleCharacter from './Objects/ACartonyFemaleCharacter.js';
 
 var world = new CANNON.World();
@@ -45,10 +46,15 @@ scene.add(light)
 // scene.add(sphere);
 // http://localhost:3000/public/a-cartoony-female-character.glb
 
-
+/*
 const loader = new GLTFLoader();
 
-let carton = ACartonyFemaleCharacter(loader, scene)
+ACartonyFemaleCharacter(loader, scene)
+
+*/
+
+//const fbxLoader =  new threeFbxLoader();
+
 // scene.add(carton)
 // loader.load( 'http://localhost:3000/public/a-cartoony-female-character2.glb', function ( gltf ) {
 
