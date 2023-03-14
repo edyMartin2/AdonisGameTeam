@@ -4,8 +4,10 @@ import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import ACartonyFemaleCharacter from './Objects/ACartonyFemaleCharacter.js';
 
+var world = new CANNON.World();
+world.gravity.set(0, -9.82, 0);
 
-
+console.log(world)
 
 // promt 1
 
@@ -59,6 +61,7 @@ let carton = ACartonyFemaleCharacter(loader, scene)
 // } );
 
 
+world.addBody(geometry);
 
 
 function animate() {
