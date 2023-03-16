@@ -1,32 +1,16 @@
 
 import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js";
 import * as THREE from 'three';
+import OnlineWord from "./Scenes/OnlineWord.js";
+import Word from "./Engine/Word.js";
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 3, 3);
-camera.lookAt(0, 0, 0);
-
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-
-var light = new THREE.AmbientLight(0xffffff)
-scene.add(light)
-
+// importamos y creamos el primer mundo donde se llevara a cabo la historia
+const { scene, camera, renderer } = OnlineWord(THREE)
 // Crear el mundo de física Oimo.js
-var world = new OIMO.World({
-    timestep: 1 / 60,
-    iterations: 8,
-    broadphase: 2,
-    worldscale: 1,
-    random: true,
-    info: false
-});
+const { world } = Word()
 
 // Crear un objeto Three.js para el piso
-var floorGeometry = new THREE.BoxGeometry(100, 100, 100);
+var floorGeometry = new THREE.BoxGeometry(100, 0.5, 100);
 var floorMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 var floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
 floorMesh.position.set(0, 1, 2);
@@ -36,8 +20,8 @@ scene.add(floorMesh);
 // Crear un cuerpo rígido Oimo.js para el piso
 var floorBody = world.add({
     type: 'box',
-    size: [20, 0.1, 20],
-    pos: [0, -0.05, 0], // Colocar el piso justo debajo del origen (0, 0, 0)
+    size: [100, 0.5, 100],
+    pos: [0, 1, 0], // Colocar el piso justo debajo del origen (0, 0, 0)
     move: false, // El piso no se mueve, por lo que no necesita moverse en la simulación de física
     density: 1,
     friction: 0.2,
@@ -60,6 +44,7 @@ var boxBody = world.add({
     friction: 0.2,
     restitution: 0.2
 });
+
 // crea un objeto de control para la cámara
 var controls = new OrbitControls(camera, renderer.domElement);
 
