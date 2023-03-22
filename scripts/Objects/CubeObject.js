@@ -29,14 +29,20 @@ const CubeObject = (THREE, scene, CubePhysics, world, camera) => {
     document.addEventListener('keydown', (event) => {
         var action = event.key;
         move += 10
-        
+        console.log(action)
         switch (action) {
             case 'ArrowRight':
-                pysics.pos = [10,10,0]
                 word_add.linearVelocity.set(0.5, 3,0);
-                console.log('hola', word_add.position)
-                camera.position.set(word_add.position.x,3,word_add.position.z)
                 break;
+            case 'ArrowLeft':
+                word_add.linearVelocity.set(-0.5, 3,0);
+                break
+            case 'ArrowUp':
+                word_add.linearVelocity.set(0, 3,0.5);
+                break
+            case 'ArrowDown':
+                word_add.linearVelocity.set(0, 3,-0.5);
+                break
             
         }
     })
