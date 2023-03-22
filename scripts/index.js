@@ -23,14 +23,15 @@ const {
 
 
 // Crear el mundo de física Oimo.js
-const world = new OIMO.World(WordPhysics)
+var world = new OIMO.World(WordPhysics);
 
 // importamos el piso
 const flour = FlourObject(THREE, scene);
 world.add(FloorPhysics)
 
 // Crear un objeto Three.js para el objeto que cae
-const { boxMesh, BoxPhysics } = CubeObject(THREE, scene, CubePhysics)
+const { boxMesh, word_add } = CubeObject(THREE, scene, CubePhysics, world, camera)
+//  var boxBody = world.add(BoxPhysics);
 
 // Crear un cuerpo rígido Oimo.js para el objeto que cae
 
@@ -40,11 +41,12 @@ const { boxMesh, BoxPhysics } = CubeObject(THREE, scene, CubePhysics)
 
 // Animar la escena y actualizar la simulación de física en cada cuadro
 function animate() {
-    var boxBody = world.add(BoxPhysics);
+   
     requestAnimationFrame(animate);
-    boxMesh.position.copy(boxBody.getPosition());
-    boxMesh.quaternion.copy(boxBody.getQuaternion());
-    world.step();
+    boxMesh.position.copy(word_add.getPosition());
+    boxMesh.quaternion.copy(word_add.getQuaternion());
     renderer.render(scene, camera);
+    world.play()
+    world.step();
 }
 animate()
