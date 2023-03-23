@@ -1,5 +1,5 @@
 const Word = {
-    timestep: 1 / 60,
+    timestep: 1 / 100,
     iterations: 8,
     broadphase: 2,
     worldscale: 1,

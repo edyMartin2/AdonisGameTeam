@@ -14,7 +14,7 @@ const GamePad = (object) => {
     })
 }
 
-const CubeObject = (THREE, scene, CubePhysics, world, camera) => {
+const CubeObject = (THREE, scene, CubePhysics, world, env) => {
     var move = 0
     let pysics = CubePhysics
     var boxGeometry = new THREE.BoxGeometry(1, 1, 1);
@@ -29,22 +29,20 @@ const CubeObject = (THREE, scene, CubePhysics, world, camera) => {
     document.addEventListener('keydown', (event) => {
         var action = event.key;
         move += 10
-        console.log(camera.position)
-       
         switch (action) {
             case 'ArrowRight':
-                word_add.linearVelocity.set(0.5, 0, 0);
+                word_add.linearVelocity.set(env.velocity, 0, 0);
                 break;
             case 'ArrowLeft':
 
-                word_add.linearVelocity.set(-0.5, 0, 0);
+                word_add.linearVelocity.set(- env.velocity, 0, 0);
                 break
             case 'ArrowUp':
-                word_add.linearVelocity.set(0, 0, -0.5);
+                word_add.linearVelocity.set(0, 0, - env.velocity);
 
                 break
             case 'ArrowDown':
-                word_add.linearVelocity.set(0, 0, 0.5);
+                word_add.linearVelocity.set(0, 0, env.velocity);
                 break
 
         }
