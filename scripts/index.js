@@ -37,7 +37,7 @@ const { boxMesh, word_add } = CubeObject(THREE, scene, CubePhysics, world, camer
 
 
 // crea un objeto de control para la cámara
-//new OrbitControls(camera, renderer.domElement);
+new OrbitControls(camera, renderer.domElement);
 
 // Animar la escena y actualizar la simulación de física en cada cuadro
 function animate() {
@@ -46,8 +46,8 @@ function animate() {
     boxMesh.position.copy(word_add.getPosition());
     boxMesh.quaternion.copy(word_add.getQuaternion());
     renderer.render(scene, camera);
-    camera.lookAt(word_add.position.x,0,0)
-    camera.position.set(word_add.position.x,3,3)
+    // camera.lookAt(word_add.position.x,0,0)
+    camera.position.set(parseFloat(word_add.position.x),5,parseFloat(word_add.position.z)+2.5)
     
     world.play()
     world.step();
