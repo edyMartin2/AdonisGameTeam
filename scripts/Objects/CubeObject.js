@@ -1,17 +1,20 @@
+function gameLoop() {
+    const gp = navigator.getGamepads()[0];
 
-const GamePad = (object) => {
-    var y = 0
-    document.addEventListener('keydown', (event) => {
-        var action = event.key;
-        switch (action) {
-            case 'ArrowRight':
-                y += 1
-                console.log('entramos', y)
-                object.position.set(y, y, y)
+    if (gp.buttons[0].value > 0 || gp.buttons[0].pressed) {
+        b--;
+    } else if (gp.buttons[1].value > 0 || gp.buttons[1].pressed) {
+        a++;
+    } else if (gp.buttons[2].value > 0 || gp.buttons[2].pressed) {
+        b++;
+    } else if (gp.buttons[3].value > 0 || gp.buttons[3].pressed) {
+        a--;
+    }
 
-                break;
-        }
-    })
+    ball.style.left = `${a * 2}px`; // ball is a UI widget
+    ball.style.top = `${b * 2}px`;
+
+    requestAnimationFrame(gameLoop);
 }
 
 const CubeObject = (THREE, scene, CubePhysics, world, env) => {
@@ -28,6 +31,7 @@ const CubeObject = (THREE, scene, CubePhysics, world, env) => {
 
     document.addEventListener('keydown', (event) => {
         var action = event.key;
+        console.log(event)
         move += 10
         switch (action) {
             case 'ArrowRight':
@@ -49,6 +53,40 @@ const CubeObject = (THREE, scene, CubePhysics, world, env) => {
 
         // camera.position.set(word_add.position.x,3,parseFloat(word_add.position.z)+2.5)
     })
+
+
+
+    const gamepads = {};
+
+    function gamepadHandler(event, connecting) {
+        const gamepad = event.gamepad;
+        // Note:
+        // gamepad === navigator.getGamepads()[gamepad.index]
+        if (connecting) {
+            console.log("Hola mundo", event)
+            gamepads[gamepad.index] = gamepad;
+        } else {
+            delete gamepads[gamepad.index];
+        }
+    }
+
+    window.addEventListener(
+        "gamepadconnected",
+        (e) => {
+            gamepadHandler(e, true);
+        },
+        false
+    );
+    window.addEventListener(
+        "gamepaddisconnected",
+        (e) => {
+            gamepadHandler(e, false);
+        },
+        false
+    );
+
+    console.log('---->', gamepads)
+    gameLoop()
 
     return {
         boxMesh: boxMesh,
