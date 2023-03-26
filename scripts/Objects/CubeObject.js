@@ -1,23 +1,4 @@
-function gameLoop() {
-    const gp = navigator.getGamepads()[0];
-
-    if (gp.buttons[0].value > 0 || gp.buttons[0].pressed) {
-        b--;
-    } else if (gp.buttons[1].value > 0 || gp.buttons[1].pressed) {
-        a++;
-    } else if (gp.buttons[2].value > 0 || gp.buttons[2].pressed) {
-        b++;
-    } else if (gp.buttons[3].value > 0 || gp.buttons[3].pressed) {
-        a--;
-    }
-
-    ball.style.left = `${a * 2}px`; // ball is a UI widget
-    ball.style.top = `${b * 2}px`;
-
-    requestAnimationFrame(gameLoop);
-}
-
-const CubeObject = (THREE, scene, CubePhysics, world, env) => {
+const CubeObject = (THREE, scene, CubePhysics, world, env, camera) => {
     var move = 0
     let pysics = CubePhysics
     var boxGeometry = new THREE.BoxGeometry(1, 1, 1);
@@ -28,7 +9,10 @@ const CubeObject = (THREE, scene, CubePhysics, world, env) => {
     //GamePad(boxMesh)
     scene.add(boxMesh);
 
-
+    var x0 = 0
+    var x1 = 0
+    var x2 = 0
+    var x3 = 0
     document.addEventListener('keydown', (event) => {
         var action = event.key;
         console.log(event)
@@ -48,6 +32,9 @@ const CubeObject = (THREE, scene, CubePhysics, world, env) => {
             case 'ArrowDown':
                 word_add.linearVelocity.set(0, 0, env.velocity);
                 break
+            case ' ':
+                word_add.linearVelocity.set(0, 5, env.velocity);
+                break
 
         }
 
@@ -65,17 +52,58 @@ const CubeObject = (THREE, scene, CubePhysics, world, env) => {
         if (connecting) {
             console.log("Hola mundo", event)
             gamepads[gamepad.index] = gamepad;
+
+
         } else {
             delete gamepads[gamepad.index];
         }
     }
 
+    // const x = (e)=>{
+    //     console.log(e.gamepad)
+    //     // requestAnimationFrame(x(e))
+    // }
+
+
     window.addEventListener(
         "gamepadconnected",
         (e) => {
-            gamepadHandler(e, true);
+
+            const update = () => {
+
+                for (const gamepad of navigator.getGamepads()) {
+                    if (!gamepad) continue;
+                    x0 = gamepad.axes[0]
+                    x1 = gamepad.axes[1]
+
+                    x2 = gamepad.axes[2]
+                    x3 = gamepad.axes[3]
+                    word_add.linearVelocity.set(x0, 0, x1);
+                    console.log(gamepad)
+                    // camera.position.set(x0,0,x1)
+                    // camera.position.set(x2 * 10, 4, x3 * 10)
+                    // console.log('--->',camera.position, x0, x1)
+                    // gamepad.hapticActuators.pulse(1.0, 200);
+
+
+
+                    if (gamepad.buttons[7].touched) {
+                        word_add.linearVelocity.set(0, 1, 0);
+                        gamepad.vibrationActuator.playEffect("dual-rumble", {
+                            startDelay: 0,
+                            duration: 100,
+                            weakMagnitude: 1.0,
+                            strongMagnitude: 1.0,
+                        });
+                    }
+                }
+                requestAnimationFrame(update)
+            }
+            update()
         },
         false
+
+
     );
     window.addEventListener(
         "gamepaddisconnected",
@@ -86,7 +114,7 @@ const CubeObject = (THREE, scene, CubePhysics, world, env) => {
     );
 
     console.log('---->', gamepads)
-    gameLoop()
+
 
     return {
         boxMesh: boxMesh,

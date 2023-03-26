@@ -31,7 +31,7 @@ const flour = FlourObject(THREE, scene);
 world.add(FloorPhysics)
 
 // Crear un objeto Three.js para el objeto que cae
-const { boxMesh, word_add } = CubeObject(THREE, scene, CubePhysics, world, env)
+const { boxMesh, word_add } = CubeObject(THREE, scene, CubePhysics, world, env, camera)
 //  var boxBody = world.add(BoxPhysics);
 
 // Crear un cuerpo rígido Oimo.js para el objeto que cae
@@ -46,7 +46,7 @@ console.log('test ::', camera.rotation)
 camera.rotation.set(-1, 0, 0)
 // Animar la escena y actualizar la simulación de física en cada cuadro
 function animate() {
-
+    
     requestAnimationFrame(animate);
     boxMesh.position.copy(word_add.getPosition());
     boxMesh.quaternion.copy(word_add.getQuaternion());
